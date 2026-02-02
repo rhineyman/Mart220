@@ -54,12 +54,30 @@ function draw() {
 
     sun1x += sun1vx;
     sun1y += sun1vy;
+    // Update sun 2 position and bounce
     sun2x += sun2vx;
     sun2y += sun2vy;
+    // Update sun 3 position and bounce
     sun3y += sun3vy;
     sun3x += sun3vx;
+    // Update sun 4 position and bounce
     sun4y += sun4vy;
     sun4x += sun4vx;
+
+    // Bounce off walls sun 1
+    if (sun1x - 100 < 0 || sun1x + 100 > 800) {
+        sun1vx *= -1;
+    }
+    if (sun1y - 100 < 0 || sun1y + 100 > 600) {
+        sun1vy *= -1;
+    }
+    // Bounce off walls sun 2
+    if (sun2x - 100 < 0 || sun2x + 100 > 800) {
+        sun2vx *= -1;
+    }
+    if (sun2y - 100 < 0 || sun2y + 100 > 600) {
+        sun2vy *= -1;
+    }
     // bounce off walls sun 3
     if (sun3x - 100 < 0 || sun3x + 100 > 800) {
         sun3vx *= -1;
@@ -74,21 +92,9 @@ function draw() {
     if (sun4y - 100 < 0 || sun4y + 100 > 600) {
         sun4vy *= -1;
     }
-    // Bounce off walls sun 2
-    if (sun2x - 100 < 0 || sun2x + 100 > 800) {
-        sun2vx *= -1;
-    }
-    if (sun2y - 100 < 0 || sun2y + 100 > 600) {
-        sun2vy *= -1;
-    }
+    
 
-    // Bounce off walls sun 1
-    if (sun1x - 100 < 0 || sun1x + 100 > 800) {
-        sun1vx *= -1;
-    }
-    if (sun1y - 100 < 0 || sun1y + 100 > 600) {
-        sun1vy *= -1;
-    }
+    
 
     background(120);
 

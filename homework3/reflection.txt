@@ -1,0 +1,227 @@
+
+
+
+
+
+
+
+let subX = 400;
+let subY = 200;
+
+let fish1x = 150;
+let fish1y = 300;
+let fish1vx = 0;
+let fish1vy = 0;
+let fish2x = 600;
+let fish2y = 250;
+let fish2vx = 0;
+let fish2vy = 0;
+let fish3x = 250;
+let fish3y = 400;
+let fish3vx = 0;
+let fish3vy = 0;
+let fish4x = 700;
+let fish4y = 350;
+let fish4vx = 0;
+let fish4vy = 0;
+
+let bubbles = [];
+
+function setup() {
+    createCanvas(800, 600);
+    fish1vx = random(-2, 2);
+    fish1vy = random(-2, 2);
+    fish2vx = random(-2, 2);
+    fish2vy = random(-2, 2);
+    fish3vx = random(-2, 2);
+    fish3vy = random(-2, 2);
+    fish4vx = random(-2, 2);
+    fish4vy = random(-2, 2);
+    
+    // Create some bubbles
+    for (let i = 0; i < 15; i++) {
+        bubbles.push({
+            x: random(50, 750),
+            y: random(50, 550),
+            size: random(10, 30),
+            speed: random(0.5, 2)
+        });
+    }
+}
+
+function draw() {
+    // Handle arrow key movement for submarine
+    if (keyIsPressed) {
+        if (keyCode === UP_ARROW) {
+            subY -= 4;
+        }
+        if (keyCode === DOWN_ARROW) {
+            subY += 4;
+        }
+        if (keyCode === LEFT_ARROW) {
+            subX -= 4;
+        }
+        if (keyCode === RIGHT_ARROW) {
+            subX += 4;
+        }
+    }
+
+    // Update fish positions
+    fish1x += fish1vx;
+    fish1y += fish1vy;
+    fish2x += fish2vx;
+    fish2y += fish2vy;
+    fish3x += fish3vx;
+    fish3y += fish3vy;
+    fish4x += fish4vx;
+    fish4y += fish4vy;
+
+    // Bounce fish off walls
+    if (fish1x - 40 < 50 || fish1x + 40 > 750) fish1vx *= -1;
+    if (fish1y - 20 < 50 || fish1y + 20 > 550) fish1vy *= -1;
+    if (fish2x - 40 < 50 || fish2x + 40 > 750) fish2vx *= -1;
+    if (fish2y - 20 < 50 || fish2y + 20 > 550) fish2vy *= -1;
+    if (fish3x - 40 < 50 || fish3x + 40 > 750) fish3vx *= -1;
+    if (fish3y - 20 < 50 || fish3y + 20 > 550) fish3vy *= -1;
+    if (fish4x - 40 < 50 || fish4x + 40 > 750) fish4vx *= -1;
+    if (fish4y - 20 < 50 || fish4y + 20 > 550) fish4vy *= -1;
+
+    // Ocean background gradient
+    for (let i = 0; i < height; i++) {
+        let inter = map(i, 0, height, 0, 1);
+        let c = lerpColor(color(20, 100, 180), color(10, 30, 80), inter);
+        stroke(c);
+        line(0, i, width, i);
+    }
+
+    // Draw bubbles
+    noStroke();
+    for (let bubble of bubbles) {
+        fill(100, 150, 255, 100);
+        circle(bubble.x, bubble.y, bubble.size);
+        bubble.y -= bubble.speed;
+        if (bubble.y < 0) {
+            bubble.y = 600;
+            bubble.x = random(50, 750);
+        }
+    }
+
+    // Sandy ocean floor
+    fill(194, 178, 128);
+    rect(50, 480, 700, 70);
+
+    // Seaweed
+    stroke(34, 139, 34);
+    strokeWeight(4);
+    noFill();
+    bezier(120, 550, 130, 520, 110, 490, 125, 460);
+    bezier(680, 550, 670, 520, 690, 490, 675, 460);
+    bezier(300, 550, 310, 510, 290, 480, 305, 450);
+    
+    strokeWeight(1);
+    noStroke();
+
+    // Treasure chest
+    fill(139, 69, 19);
+    rect(550, 500, 80, 40);
+    fill(218, 165, 32);
+    rect(555, 505, 70, 10);
+    rect(565, 515, 50, 5);
+    
+    // Gold coins
+    fill(255, 215, 0);
+    circle(600, 495, 15);
+    circle(615, 490, 15);
+    circle(585, 492, 15);
+
+    // Draw fish
+    drawFish(fish1x, fish1y, 255, 140, 0);
+    drawFish(fish2x, fish2y, 255, 20, 147);
+    drawFish(fish3x, fish3y, 0, 255, 255);
+    drawFish(fish4x, fish4y, 255, 255, 0);
+
+    // Submarine body
+    fill(200, 200, 0);
+    ellipse(subX, subY, 120, 60);
+    
+    // Submarine tower
+    fill(180, 180, 0);
+    rect(subX - 15, subY - 40, 30, 25);
+    
+    // Periscope
+    stroke(150, 150, 0);
+    strokeWeight(3);
+    line(subX, subY - 40, subX, subY - 60);
+    line(subX, subY - 60, subX + 15, subY - 60);
+    strokeWeight(1);
+    noStroke();
+    
+    // Submarine windows
+    fill(100, 200, 255);
+    circle(subX - 20, subY, 18);
+    circle(subX + 20, subY, 18);
+    
+    // Propeller
+    fill(150, 150, 150);
+    rect(subX + 55, subY - 5, 20, 10);
+    line(subX + 75, subY - 10, subX + 75, subY + 10);
+
+    // Border frame
+    noStroke();
+    fill(40, 20, 60);
+    rect(0, 0, 800, 50);
+    rect(0, 25, 50, 600);
+    rect(50, 550, 800, 50);
+    rect(750, 25, 50, 600);
+
+    // Corner decorations
+    fill(0, 255, 255);
+    square(0, 0, 50);
+    square(750, 0, 50);
+    square(750, 550, 50);
+    square(0, 550, 50);
+
+    // Corner stars
+    fill(255, 255, 0);
+    drawStar(25, 25, 8, 18, 5);
+    drawStar(775, 25, 8, 18, 5);
+    drawStar(775, 575, 8, 18, 5);
+    drawStar(25, 575, 8, 18, 5);
+
+    // Text
+    fill(255);
+    textSize(25);
+    text("Deep Sea Explorer", 50, 30);
+    textSize(20);
+    text("Use Arrow Keys", 600, 530);
+}
+
+function drawFish(x, y, r, g, b) {
+    // Fish body
+    fill(r, g, b);
+    ellipse(x, y, 60, 30);
+    
+    // Fish tail
+    triangle(x + 30, y, x + 50, y - 15, x + 50, y + 15);
+    
+    // Fish eye
+    fill(255);
+    circle(x - 15, y - 5, 10);
+    fill(0);
+    circle(x - 15, y - 5, 5);
+}
+
+function drawStar(x, y, radius1, radius2, npoints) {
+    let angle = TWO_PI / npoints;
+    let halfAngle = angle / 2.0;
+    beginShape();
+    for (let a = -PI/2; a < TWO_PI - PI/2; a += angle) {
+        let sx = x + cos(a) * radius2;
+        let sy = y + sin(a) * radius2;
+        vertex(sx, sy);
+        sx = x + cos(a + halfAngle) * radius1;
+        sy = y + sin(a + halfAngle) * radius1;
+        vertex(sx, sy);
+    }
+    endShape(CLOSE);
+}
