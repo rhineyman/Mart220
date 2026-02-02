@@ -1,12 +1,51 @@
+let dudeX = 600;
+let dudeY = 350;
+
+let sun1x = 200;
+let sun1y = 140;
+let sun1vx = 0;
+let sun1vy = 0;
+
+
 function setup()
 {
     createCanvas(800,600);
+    sun1vx = random(-3, 3);
+    sun1vy = random(-3, 3);
 }
 
 
 
 function draw()
 {
+    // Handle WASD movement
+    if (keyIsPressed) {
+        if (key === 'w') {
+            dudeY -= 5;
+        }
+        if (key === 's') {
+            dudeY += 5;
+        }
+        if (key === 'a') {
+            dudeX -= 5;
+        }
+        if (key === 'd') {
+            dudeX += 5;
+        }
+    }
+
+    // Update sun 1 position and bounce
+    sun1x += sun1vx;
+    sun1y += sun1vy;
+
+    // Bounce off walls sun 1
+    if (sun1x - 45 < 0 || sun1x + 45 > 800) {
+        sun1vx *= -1;
+    }
+    if (sun1y - 45 < 0 || sun1y + 45 > 600) {
+        sun1vy *= -1;
+    }
+
     background(120);
 
     // grass
@@ -65,11 +104,9 @@ function draw()
 
 
 
-
-
     // sun? 1
-    fill(50,120,122);
-    circle(200,140,90);
+    fill(150,100,122);
+    circle(sun1x,sun1y,90);
 // sun? 2
     fill(200,120,122);
     circle(170,160,90);
@@ -110,9 +147,9 @@ function draw()
 
     //dude body
     fill(200,50,122);
-    ellipse(600,350,10,30);  
+    ellipse(dudeX,dudeY,10,30);  
     //dude head
     fill(255,220,200);
-    circle(600,330,15);
+    circle(dudeX,dudeY-20,15);
 
 }
