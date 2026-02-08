@@ -1,16 +1,27 @@
+var carrotImg;
+
+
+
+
+
 function preload() {
   // Load any assets if needed
-  img = loadImage('assets/dog.jpg');
+  carrotImg = loadImage('assets/images/dog.jpg');
+
+
 }
+
+
 function setup() {
-  
-  createCanvas(800, 600);
-  noLoop(); // Draw only once
-  
+
+  createCanvas(800, 800);
+
+
 }
 function draw() {
-  background(220); 
-  image(img, 0, 0, width, height); // Draw the image to cover the canvas
-  fill(255, 0, 0, 150); // Semi-transparent red
-  ellipse(mouseX, mouseY, 100, 100); // Draw circle at mouse position
+  background(220);
+
+  image(carrotImg, 0, 0, 200, 200); // Draw the image to cover the canvas
+  // Semi-transparent red
+  // Draw circle at mouse position
 }
