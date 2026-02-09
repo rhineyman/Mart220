@@ -126,7 +126,7 @@ function draw() {
   }
 
   // rabbit position
-  if (frameCount % 50 === 0) {
+  if (frameCount % 100 === 0) {
     x = random(100, width - 100);
     y = random(100, height - 100);
   } 
