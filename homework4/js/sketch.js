@@ -24,8 +24,10 @@ let sun4x = 110;
 let sun4y = 200;
 let sun4vx = 0;
 let sun4vy = 0;
+
 var Font1;
 
+let rabbitupdate;
 
 
 function preload() {
@@ -123,11 +125,20 @@ function draw() {
     sun4vy *= -1;
   }
 
-  // Update rabbit position every 5 frames
+  // rabbit position
   if (frameCount % 50 === 0) {
     x = random(100, width - 100);
     y = random(100, height - 100);
-  }
+  } 
+  console.log(frameCount);
+/*
+rabbitupdate = setInterval(() => {
+  x = random(100, width - 100);
+  y = random(100, height - 100);
+}, 4000); 
+console.log(rabbitupdate);
+*/
+
 
   background(120);
 
@@ -136,6 +147,9 @@ function draw() {
   rect(25, 400, 750, 550);
   image(dogImg, 550, 200, 200, 200); // Draw the image to cover the canvas
   image(catImg, 100, 200, 200, 200); // Draw the image to cover the canvas
+
+
+
 
   // upper border
   noStroke();
@@ -148,10 +162,14 @@ function draw() {
   // right border
   rect(750, 25, 50, 600);
 
+
+
   // text
   fill(255, 255, 255);
   text("Mike Rhiney", 540, 530);
   text("Simple Shape Art", 50, 35);
+
+
 
   // square in top left corner
   fill(255, 215, 0);
@@ -236,7 +254,9 @@ function draw() {
   circle(dudeX, dudeY - 20, 15);
 
 
-  image(rabbitImg, x - 100, y - 100, 200, 200); // Draw the image to cover the canvas
+
+  //rabbit
+  image(rabbitImg, x - 100, y - 100, 200, 200); 
 
 }
 
