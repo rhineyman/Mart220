@@ -2,13 +2,22 @@
 var idle1;
 var count = 0;
 var idleImages = [];
+var fruitImages = [];
 var frameCounter = 0;
+
+var x = 100;
+var y = 100;
 
 function preload() {
     
     
     for (var i = 0; i < 10; i++) {
         idleImages[i] = loadImage("assets/images/Idle__" + String(i).padStart(3, '0') + ".png");
+
+    }
+
+    for (var i = 0; i < 4; i++) {
+        fruitImages[i] = loadImage("assets/images/Fruit" + String(i) + ".png");
     }
 }
 
@@ -21,9 +30,13 @@ function draw() {
     
     for (var i = 0; i < idleImages.length; i++) {
         idleImages[i].resize(0, 200);
+        
     } 
-
+    for (var i = 0; i < fruitImages.length; i++) {
+        fruitImages[i].resize(0, 100);
+    }
     image(idleImages[count], 400, 300);
+    image(fruitImages[count % fruitImages.length], x, y);
 
     frameCounter++;
     if (frameCounter >= 5) {
@@ -33,6 +46,18 @@ function draw() {
             count = 0;
         }
     }
+
+    if (x < 400) {
+        x += 2;
+    } else {
+        x = 100;
+        y += 100;
+    }
+    if (y > 500) {
+        y = 100;
+    }
+ 
+
 }
 
 
