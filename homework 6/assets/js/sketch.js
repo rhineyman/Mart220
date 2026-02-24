@@ -21,7 +21,7 @@ var y = 100;
 
 
 
-// draw image at target height preserving aspect ratio (compact)
+// draw image 
 function ds(img, xPos, yPos, h) {
     if (!img) return;
     var iw = img.width || 1;
