@@ -18,13 +18,10 @@ function preload() {
    //idle 
     for (var i = 0; i < 10; i++) {
         idleImages[i] = loadImage("assets/images/Idle__" + String(i).padStart(3, '0') + ".png");
-
-    }
-    //run
-    for (var i = 0; i < 10; i++) {
         runImages[i] = loadImage("assets/images/Run__" + String(i).padStart(3, '0') + ".png");
     }
-    
+
+
 }
 
 function setup() {
