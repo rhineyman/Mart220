@@ -6,13 +6,7 @@ var fruitImages = [];
 var runImages = []; 
 var characterX = 400;
 var characterY = 300;
-/*
-var fruitPositions = [
-    {x: 500, y: 200},
-    {x: 400, y: 0},
-    {x: 200, y: 500},
-    {x: 50, y: 200}
-];*/
+
 
 var frameCounter = 0;
 
@@ -30,11 +24,7 @@ function preload() {
     for (var i = 0; i < 10; i++) {
         runImages[i] = loadImage("assets/images/Run__" + String(i).padStart(3, '0') + ".png");
     }
-//fruit
-
-   /* for (var i = 0; i < 4; i++) {
-        fruitImages[i] = loadImage("assets/images/Fruit" + String(i) + ".png");
-    }*/
+    
 }
 
 function setup() {
@@ -48,25 +38,7 @@ function draw() {
         idleImages[i].resize(100, 100);
         runImages[i].resize(100, 100);
     } 
-    /*
-    for (var i = 0; i < fruitImages.length; i++) {
-        fruitImages[i].resize(0, 100);
 
-    }*/
-
-    //generate idle and fruit images
-    //image(idleImages[count], characterX, characterY);
-
-
-    //image(fruitImages[count % fruitImages.length], x, y);
-
-    /*
-    for (var i = 0; i < fruitImages.length; i++) {
-        var pos = fruitPositions[i] || {x: 0, y: 0};
-        image(fruitImages[i], pos.x, pos.y);
-    }
-*/
-//timer
 
     frameCounter++;
     if (frameCounter >= 5) {
@@ -77,17 +49,7 @@ function draw() {
         }
     }
 
-    //move fruit 
-/*
-    if (x < 400) {
-        x += 2;
-    } else {
-        x = 100;
-        y += 100;
-    }
-    if (y > 500) {
-        y = 100;
-    } */
+
  if (isKeyPressed) {
     if (keyIsDown(87)) {        
          // W key
@@ -100,9 +62,11 @@ function draw() {
     }
     if (keyIsDown(65)) { // A key
         characterX -= 5;
+        image(runImages[count], characterX, characterY);
     }
     if (keyIsDown(68)) { // D key
         characterX += 5;
+        image(runImages[count], characterX, characterY);
     }
 }
 else {
