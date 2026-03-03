@@ -7,7 +7,10 @@ var characterY = 300;
 
 var frameCounter = 0;
 var count = 0;
+var timer = 60;
+var timerCounter = 0; 
 
+var score = 0;
 
 var Fruit;
 var FruitArray = [];
@@ -34,7 +37,9 @@ function preload() {
 
 function setup() {
     createCanvas(800, 600);
- 
+
+    //game timer
+    timer = 30;
 }
 
 function draw() {
@@ -89,12 +94,44 @@ else {
 
 //collision detection
     for (var i = 0; i < FruitArray.length; i++) {
-        var d = dist(characterX, characterY, FruitArray[i].x, FruitArray[i].y);
-        if (d < 50) {
-            
-            FruitArray.splice(i, 1);
-            i--; 
+        var collide = dist(characterX, characterY, FruitArray[i].x, FruitArray[i].y);
+        if (collide < 50) {
+            // randomize fruit position, size, and color            
+            FruitArray[i].x = random(0, width);
+            FruitArray[i].y = random(0, height);
+            FruitArray[i].d = random(20, 100);
+            FruitArray[i].r = random(0, 255);
+            FruitArray[i].g = random(0, 255);
+            FruitArray[i].b = random(0, 255);
+            //score
+            score++; 
         }
     }
+
+    //game timer 
+    timerCounter++;
+    if (timerCounter >= 60) {
+        timerCounter = 0;
+        if (timer > 0) {
+            timer--;
+        }
+    }
+    textSize(20);
+    fill(0);
+    text("Time: " + timer, 10, 30);
+
+    if (timer === 0) {
+        textSize(50);
+        fill(255, 0, 0);
+        text("Game Over Final Score: " + score, width / 4 - 150, height / 4);
+        noLoop(); 
+    }
+
+
+    // score display
+
+    textSize(20);
+    fill(0);
+    text("Score: " + score, 10, 60);
 
 }
