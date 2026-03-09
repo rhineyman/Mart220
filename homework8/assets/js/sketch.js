@@ -8,7 +8,7 @@ var characterY = 300;
 var frameCounter = 0;
 var count = 0;
 var timer = 60;
-var timerCounter = 0; 
+var timerCounter = 0;
 
 var score = 0;
 
@@ -17,28 +17,28 @@ var FruitArray = [];
 var Poison;
 var PoisonArray = [];
 
-
+var themeMusic;
 
 
 function preload() {
     //poison
     for (var i = 0; i < 3; i++) {
-        Poison = new makeFruit(random(0, 800), random(0, 600), random(0, 300), random(0, 300), 0, random(20,100), 255, 0, 0);
+        Poison = new makeFruit(random(0, 800), random(0, 600), random(0, 300), random(0, 300), 0, random(20, 100), 255, 0, 0);
         PoisonArray.push(Poison);
     }
-    
-  //"fruit"
+
+    //"fruit"
     for (var i = 0; i < 10; i++) {
-        Fruit = new makeFruit(random(0, 800), random(0, 600), random(0, 300), random(0, 300), 0, random(20,100), 0, 0, 255);
+        Fruit = new makeFruit(random(0, 800), random(0, 600), random(0, 300), random(0, 300), 0, random(20, 100), 0, 0, 255);
         FruitArray.push(Fruit);
     }
-   //idle 
+    //idle 
     for (var i = 0; i < 10; i++) {
         idleImages[i] = loadImage("assets/images/Idle__" + String(i).padStart(3, '0') + ".png");
         runImages[i] = loadImage("assets/images/Run__" + String(i).padStart(3, '0') + ".png");
     }
 
-
+    themeMusic = loadSound("assets/sound/nes_western_theme.mp3");
 }
 
 function setup() {
@@ -50,14 +50,17 @@ function setup() {
 
 function draw() {
     background(220);
-           //draw the "poison"
+
+    // play music handled in mousePressed()
+
+    //draw the "poison"
     for (var i = 0; i < PoisonArray.length; i++) {
         PoisonArray[i].drawCircles();
     }
     //draw the "fruits"
     for (var i = 0; i < FruitArray.length; i++) {
         FruitArray[i].drawCircles();
-        
+
     }
 
 
@@ -65,9 +68,9 @@ function draw() {
     for (var i = 0; i < idleImages.length; i++) {
         idleImages[i].resize(100, 100);
         runImages[i].resize(100, 100);
-    } 
+    }
 
-//timer
+    //timer
     frameCounter++;
     if (frameCounter >= 5) {
         frameCounter = 0;
@@ -76,32 +79,32 @@ function draw() {
             count = 0;
         }
     }
-//movement
+    //movement
 
- if (isKeyPressed) {
-    if (keyIsDown(87)) {        
-         // W key
-        characterY -= 5;
-        image(runImages[count], characterX, characterY);
+    if (isKeyPressed) {
+        if (keyIsDown(87)) {
+            // W key
+            characterY -= 5;
+            image(runImages[count], characterX, characterY);
+        }
+        if (keyIsDown(83)) { // S key
+            characterY += 5;
+            image(runImages[count], characterX, characterY);
+        }
+        if (keyIsDown(65)) { // A key
+            characterX -= 5;
+            image(runImages[count], characterX, characterY);
+        }
+        if (keyIsDown(68)) { // D key
+            characterX += 5;
+            image(runImages[count], characterX, characterY);
+        }
     }
-    if (keyIsDown(83)) { // S key
-        characterY += 5;
-        image(runImages[count], characterX, characterY);
+    else {
+        image(idleImages[count], characterX, characterY);
     }
-    if (keyIsDown(65)) { // A key
-        characterX -= 5;
-        image(runImages[count], characterX, characterY);
-    }
-    if (keyIsDown(68)) { // D key
-        characterX += 5;
-        image(runImages[count], characterX, characterY);
-    }
-}
-else {
-    image(idleImages[count], characterX, characterY);
-}
 
-//collision detection
+    //collision detection
     for (var i = 0; i < FruitArray.length; i++) {
         var collide = dist(characterX, characterY, FruitArray[i].x, FruitArray[i].y);
         if (collide < 50) {
@@ -109,14 +112,13 @@ else {
             FruitArray[i].x = random(0, width);
             FruitArray[i].y = random(0, height);
             FruitArray[i].d = random(20, 100);
-            //FruitArray[i].r = random(0, 255);
-            //FruitArray[i].g = random(0, 255);
-            //FruitArray[i].b = random(0, 255);
+
+
             //score
-            score++; 
+            score++;
         }
     }
-//collision detection for poison
+    //collision detection for poison
     for (var i = 0; i < PoisonArray.length; i++) {
         var collide = dist(characterX, characterY, PoisonArray[i].x, PoisonArray[i].y);
         if (collide < 50) {
@@ -124,11 +126,8 @@ else {
             PoisonArray[i].x = random(0, width);
             PoisonArray[i].y = random(0, height);
             PoisonArray[i].d = random(20, 100);
-            //PoisonArray[i].r = random(0, 255);
-            //PoisonArray[i].g = random(0, 255);
-            //PoisonArray[i].b = random(0, 255);
             //score
-            score--; 
+            score--;
         }
     }
     //game timer 
@@ -147,7 +146,7 @@ else {
         textSize(50);
         fill(255, 0, 0);
         text("Game Over Final Score: " + score, width / 4 - 150, height / 4);
-        noLoop(); 
+        noLoop();
     }
 
 
@@ -157,4 +156,19 @@ else {
     fill(0);
     text("Score: " + score, 10, 60);
 
+    //click to play music
+    textSize(20);
+    fill(0);
+    text("Click to Play/Stop Music", 10, 90);
+
 }
+
+
+function mousePressed() {
+    if (themeMusic && !themeMusic.isPlaying()) {
+        themeMusic.loop();
+    }else if (themeMusic && themeMusic.isPlaying()) {
+        themeMusic.stop();
+    }
+}
+
