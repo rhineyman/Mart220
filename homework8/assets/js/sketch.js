@@ -11,6 +11,7 @@ var timer = 60;
 var timerCounter = 0;
 
 var score = 0;
+var health = 0;
 
 var Fruit;
 var FruitArray = [];
@@ -18,6 +19,8 @@ var Poison;
 var PoisonArray = [];
 
 var themeMusic;
+var ouchSound;
+var yummySound;
 
 
 function preload() {
@@ -39,11 +42,14 @@ function preload() {
     }
 
     themeMusic = loadSound("assets/sound/nes_western_theme.mp3");
+    ouchSound = loadSound("assets/sound/ouch.mp3");
+    yummySound = loadSound("assets/sound/yummy.mp3");
 }
 
 function setup() {
     createCanvas(800, 600);
-
+    //health
+    health = 10;
     //game timer
     timer = 30;
 }
@@ -113,7 +119,10 @@ function draw() {
             FruitArray[i].y = random(0, height);
             FruitArray[i].d = random(20, 100);
 
-
+            //play yummy sound
+            if (yummySound) {
+                yummySound.play();
+            }
             //score
             score++;
         }
@@ -126,8 +135,13 @@ function draw() {
             PoisonArray[i].x = random(0, width);
             PoisonArray[i].y = random(0, height);
             PoisonArray[i].d = random(20, 100);
+            //play ouch sound
+            if (ouchSound) {
+                ouchSound.play();
+            }
             //score
             score--;
+            health--;
         }
     }
     //game timer 
@@ -142,7 +156,7 @@ function draw() {
     fill(0);
     text("Time: " + timer, 10, 30);
 
-    if (timer === 0) {
+    if (timer === 0 || health <= 0) {
         textSize(50);
         fill(255, 0, 0);
         text("Game Over Final Score: " + score, width / 4 - 150, height / 4);
@@ -160,6 +174,11 @@ function draw() {
     textSize(20);
     fill(0);
     text("Click to Play/Stop Music", 10, 90);
+
+    // health display
+    textSize(20);
+    fill(0);
+    text("Health: " + health, 700, 30);
 
 }
 
