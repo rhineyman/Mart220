@@ -13,14 +13,17 @@ var timerCounter = 0;
 var score = 0;
 var health = 0;
 
-var Fruit;
-var FruitArray = [];
+//var Fruit;
+//var FruitArray = [];
+let fruit;
 var Poison;
 var PoisonArray = [];
 
 var themeMusic;
 var ouchSound;
 var yummySound;
+
+
 
 
 function preload() {
@@ -31,10 +34,10 @@ function preload() {
     }
 
     //"fruit"
-    for (var i = 0; i < 10; i++) {
+    /*for (var i = 0; i < 10; i++) {
         Fruit = new makeFruit(random(0, 800), random(0, 600), random(0, 300), random(0, 300), 0, random(20, 100), 0, 0, 255);
         FruitArray.push(Fruit);
-    }
+    }*/
     //idle 
     for (var i = 0; i < 10; i++) {
         idleImages[i] = loadImage("assets/images/Idle__" + String(i).padStart(3, '0') + ".png");
@@ -52,6 +55,13 @@ function setup() {
     health = 10;
     //game timer
     timer = 30;
+
+    fruit = new Group();
+  for (let i = 0; i < 6; i++) {
+    let f = createSprite(random(200, 750), random(80, 420), 20, 20);
+    f.shapeColor = color(255, 215, 0);
+    fruit.add(f);
+  }
 }
 
 function draw() {
@@ -64,10 +74,10 @@ function draw() {
         PoisonArray[i].drawCircles();
     }
     //draw the "fruits"
-    for (var i = 0; i < FruitArray.length; i++) {
+   /* for (var i = 0; i < FruitArray.length; i++) {
         FruitArray[i].drawCircles();
 
-    }
+    }*/
 
 
     //draw the character
@@ -110,8 +120,25 @@ function draw() {
         image(idleImages[count], characterX, characterY);
     }
 
+    //draw fruits
+
+    fruit.draw();
+
+    // fruit collection
+    for (let i = fruit.length - 1; i >= 0; i--) {
+        let f = fruit[i];
+        if (dist(characterX, characterY, f.x, f.y) < 30) {
+            if (yummySound) {
+                yummySound.play();
+            }
+            score += 1;
+            f.x = random(20, width - 20);
+            f.y = random(20, height - 20);
+        }
+    }
+    
     //collision detection
-    for (var i = 0; i < FruitArray.length; i++) {
+    /*for (var i = 0; i < FruitArray.length; i++) {
         var collide = dist(characterX, characterY, FruitArray[i].x, FruitArray[i].y);
         if (collide < 50) {
             // randomize fruit position, size, and color            
@@ -126,7 +153,7 @@ function draw() {
             //score
             score++;
         }
-    }
+    }*/
     //collision detection for poison
     for (var i = 0; i < PoisonArray.length; i++) {
         var collide = dist(characterX, characterY, PoisonArray[i].x, PoisonArray[i].y);

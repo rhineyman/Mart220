@@ -1,0 +1,2 @@
+I basically just tried to integrate sprites into my project I have already been building. I only used AI to help me find the link for p5.play but other than that I mostly just referenced material from the module.
+I got the "fruit" converted over to sprites and managed to make it work. Its working well enough that I'm stepping away from it and moving on. 
