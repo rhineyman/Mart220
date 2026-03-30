@@ -38,7 +38,9 @@ function preload() {
     //idle 
     for (var i = 0; i < 10; i++) {
         idleImages[i] = loadImage("assets/images/Idle__" + String(i).padStart(3, '0') + ".png");
+        idleImages[i].resize(100, 100);
         runImages[i] = loadImage("assets/images/Run__" + String(i).padStart(3, '0') + ".png");
+        runImages[i].resize(100, 100);
     }
 
     themeMusic = loadSound("assets/sound/nes_western_theme.mp3");
@@ -51,7 +53,7 @@ function setup() {
     //health
     health = 10;
     //game timer
-    timer = 30;
+    timer = 15;
 }
 
 function draw() {
@@ -70,13 +72,7 @@ function draw() {
     }
 
 
-    //draw the character
-    for (var i = 0; i < idleImages.length; i++) {
-        idleImages[i].resize(100, 100);
-        runImages[i].resize(100, 100);
-    }
-
-    //timer
+    //animation timer
     frameCounter++;
     if (frameCounter >= 5) {
         frameCounter = 0;
@@ -85,28 +81,34 @@ function draw() {
             count = 0;
         }
     }
-    //movement
 
-    if (isKeyPressed) {
-        if (keyIsDown(87)) {
-            // W key
-            characterY -= 5;
-            image(runImages[count], characterX, characterY);
-        }
-        if (keyIsDown(83)) { // S key
-            characterY += 5;
-            image(runImages[count], characterX, characterY);
-        }
-        if (keyIsDown(65)) { // A key
-            characterX -= 5;
-            image(runImages[count], characterX, characterY);
-        }
-        if (keyIsDown(68)) { // D key
-            characterX += 5;
-            image(runImages[count], characterX, characterY);
-        }
+    //movement (update position first, then draw once)
+    var moving = false;
+    if (keyIsDown(87)) { // W key
+        characterY -= 5;
+        moving = true;
     }
-    else {
+    if (keyIsDown(83)) { // S key
+        characterY += 5;
+        moving = true;
+    }
+    if (keyIsDown(65)) { // A key
+        characterX -= 5;
+        moving = true;
+    }
+    if (keyIsDown(68)) { // D key
+        characterX += 5;
+        moving = true;
+    }
+
+    // constrain character to canvas
+    characterX = constrain(characterX, 0, width - 100);
+    characterY = constrain(characterY, 0, height - 100);
+
+    // draw character once per frame
+    if (moving) {
+        image(runImages[count], characterX, characterY);
+    } else {
         image(idleImages[count], characterX, characterY);
     }
 
