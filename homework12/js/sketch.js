@@ -3,20 +3,30 @@ let text;
 
 function setup() {
   createCanvas(400, 400, WEBGL);
-
+  text = createGraphics(100, 100)
+  text.textFont('Source Code Pro');
+  text.textAlign(CENTER);
+  text.textSize(50);
+  text.fill(3, 7, 11);
+  text.noStroke();
+  text.text('Mike', 50, 75);
 }
 
 function draw() {
   background(220);
+  //push();
+  noStroke();
+  texture(text);
+  //pop();
 
   function drawCone() {
     push();
     //orbitControl();
     translate(-100, 100);
-    rotateX(frameCount * 0.01);
-    rotateY(frameCount * 0.02);
-    rotateZ(frameCount * 0.03);
-    cone(40, 70);
+    //rotateX(frameCount * 0.01);
+    rotateY(frameCount * -0.02);
+    //rotateZ(frameCount * 0.03);
+    cone(70, 120);
     pop();
 }
 function drawCylinder() {
