@@ -1,8 +1,11 @@
 let text;
-
+let bugle;
+function preload() {
+  bugle = loadModel('assets/models/bugle.obj');
+}
 
 function setup() {
-  createCanvas(400, 400, WEBGL);
+  createCanvas(800, 800, WEBGL);
   text = createGraphics(100, 100)
   text.textFont('Source Code Pro');
   text.textAlign(CENTER);
@@ -18,6 +21,28 @@ function draw() {
   noStroke();
   texture(text);
   //pop();
+
+
+
+drawCone();
+drawCylinder();
+drawCube();
+drawTorus();
+drawEllipsoid();
+drawBugle();
+
+
+}
+function drawBugle() {
+    push();
+    scale(7);
+    translate(0, 0, 40);
+    rotateX(frameCount * 0.01);
+    rotateY(frameCount * 0.01);
+    normalMaterial();
+    model(bugle);
+    pop();
+}
 
   function drawCone() {
     push();
@@ -67,19 +92,10 @@ function drawTorus() {
 function drawEllipsoid() {
     push();
     //orbitControl();
-    ambientLight(255, 0, 255);
+    ambientLight(0, 0, 255);
     ambientMaterial(100, 150, 200);
     translate(-100, -100);
     rotateX(frameCount * 0.01);
     ellipsoid(30, 20, 10);
     pop();
-}
-
-drawCone();
-drawCylinder();
-drawCube();
-drawTorus();
-drawEllipsoid();
-
-
 }
